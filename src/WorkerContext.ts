@@ -75,7 +75,7 @@ export class WorkerContext { // @ts-ignore
     //@todo 模拟事件=====================================================
     private vCreateEvent(){
 
-        let name = ['IBMS_DeviceInstalledEvent','IBMS_DeviceProductEvent','IBMS_DeviceMaintenancedEvent','IBMS_DeviceAlarmEvent','IBMS_DeviceUninstalledEvent'];
+        let name = ['IBMS_DeviceInstalledEvent','IBMS_DeviceProductEvent','IBMS_DeviceAlarmEvent','IBMS_DeviceMaintenancedEvent','IBMS_DeviceUninstalledEvent'];
         let  radom = 0;
         let _go=()=>{
             let data= {

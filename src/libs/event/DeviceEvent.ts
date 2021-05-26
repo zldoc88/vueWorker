@@ -296,10 +296,6 @@ export class DeviceAlarmEvent extends DeviceLifecycleChangedEvent {
         }
         return "设备[id=" + this.id + "] 设备预警为" + this._message;
     }
-    get transformerName(): string {
-        // @ts-ignore
-        return null;
-    }
 }
 
 /**
@@ -463,11 +459,11 @@ export class DeviceLifecycleEventTransformer
       //依次压入事件属性
       result.push(event.id);
       // @ts-ignore
-      result.push(event.withCategory);
+      result.push(event.category);
       // @ts-ignore
-      result.push(event.withMessage);
+      result.push(event.message);
       // @ts-ignore
-      result.push(event.withTimeToLive);
+      result.push(event.timeToLife);
   }
 
   /**
@@ -551,7 +547,7 @@ export class DeviceLifecycleEventTransformer
       builder.withId(obj[2].toString());
       builder.withCategory(obj[3].toString());
       builder.withMessage(obj[4].toString());
-      builder.withTimeToLive(Number(obj[5]));
+      builder.withTimeToLife(Number(obj[5]));
 
       return builder;
   }
@@ -854,7 +850,7 @@ export class DeviceAlarmEventBuilder extends DeviceLifecycleChangedEventBuilder 
         return this;
     }
 
-    withTimeToLive(value: number){
+    withTimeToLife(value: number){
         this._timeToLife = value;
         return this;
     }

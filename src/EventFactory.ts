@@ -60,7 +60,7 @@ export class IWebSocketEvent implements IEventFactory{
                 break;
             case 'DeviceMaintenancedEvent':
                 this._EventBuilder = new DeviceMaintenancedEventBuilder();
-                break
+                break;
             case 'DeviceAlarmEvent':
                 this._EventBuilder = new DeviceAlarmEventBuilder();
                 // @ts-ignore
@@ -68,7 +68,7 @@ export class IWebSocketEvent implements IEventFactory{
                 // @ts-ignore
                 this._EventBuilder.withMessage('温度超过30');
                 // @ts-ignore
-                this._EventBuilder.withTimeToLive(1000);
+                this._EventBuilder.withTimeToLife(1000);
                 break;
             case 'DeviceUninstalledEvent':
                 //withSubsystem
