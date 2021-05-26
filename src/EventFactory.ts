@@ -1,14 +1,18 @@
 import {IbmsEvent, IEventTransformer} from "./libs/event/Event";
 import {isNull} from "./libs/event/Util";
 //事件-----------------
-import {WaterChangedEvent,WaterChangedEventBuilder} from './libs/device/event/WaterMetersEvent';
-import {
-    DeviceEvent, DeviceEventBuilder,
-    DeviceProducedEvent, DeviceProducedEventBuilder,
-    DeviceMaintenancedEvent, DeviceMaintenancedEventBuilder,
-    DeviceAlarmEvent, DeviceAlarmEventBuilder,
-    DeviceInstalledEventBuilder, DeviceUninstalledEventBuilder
-} from './libs/event/DeviceEvent';
+import { TemperatureBasisEvents } from './libs/device/event/TemperatureEvent';
+import { SwitchBasisEvents } from './libs/device/event/SwitchEvent';
+import { GasMeterBasisEvents } from './libs/device/event/GasMeterEvent';
+import { FanLosedPresetBasisEvents } from './libs/device/event/FanLosedPresetSettedEvent';
+import { ElectricityBasisEvents } from './libs/device/event/ElectricityMeterEvent';
+import { StateBasisEvents } from './libs/device/event/DeviceStateEvent';
+import { DampnessBasisEvents } from './libs/device/event/DampnessEvent';
+import { DeviceOnlineTimeBasisEvents } from './libs/device/event/TimeChangedEvent';
+import { WaterBasisEvents } from './libs/device/event/WaterMetersEvent';
+import { DeviceBasisEvents } from './libs/event/DeviceEvent';
+
+
 
 export interface IEventFactory<T extends IbmsEvent> {
 
@@ -24,8 +28,8 @@ export class IWebSocketEvent implements IEventFactory{
     private readonly _eventFactoryMap: Map<string, any>;
     private readonly _eventName: string;
     private readonly _transformerName: string;
-    private _EventBuilder: DeviceEventBuilder;
-    private _Event: DeviceEvent;
+    private _EventBuilder: DeviceBasisEvents.DeviceEventBuilder;
+    private _Event: DeviceBasisEvents.DeviceEvent;
 
     constructor(name:string){
         this._eventFactoryMap = new Map<string, IEventTransformer<IbmsEvent>>();
@@ -33,63 +37,93 @@ export class IWebSocketEvent implements IEventFactory{
         this._transformerName = isNull(name, "\"name\" cannot be null.");
     }
 
-    //转换器工厂名 ----对应转换器
-    createEvent(json:object){
-        //this._eventFactoryMap.set( this._eventName,json);
-        switch (this._eventName) {
-            case 'DeviceInstalledEvent':
-                this._EventBuilder=new DeviceInstalledEventBuilder();
-                // 安装
-                // @ts-ignore
-                this._EventBuilder.withManufacturer("广州市晟能电子科技有限公司");
-                // @ts-ignore
-                this._EventBuilder.withModel("SN-DH266666666 温度计");
-                // @ts-ignore
-                this._EventBuilder.withCategory("温度计");
-                // @ts-ignore
-                this._EventBuilder.withSubsystem("webservice_dahua");
-                // @ts-ignore
-                this._EventBuilder.withFactoryName("temperature.sensor");
-                // @ts-ignore
-                this._EventBuilder.withFunctionalAreaId("HPDXXZ0101");
-                // @ts-ignore
-                this._EventBuilder.withPositionId("Test_position001");
-                break;
-            case 'DeviceProductEvent':
-                this._EventBuilder = new DeviceProducedEventBuilder();
-                break;
-            case 'DeviceMaintenancedEvent':
-                this._EventBuilder = new DeviceMaintenancedEventBuilder();
-                break;
-            case 'DeviceAlarmEvent':
-                this._EventBuilder = new DeviceAlarmEventBuilder();
-                // @ts-ignore
-                this._EventBuilder.withCategory("水温");
-                // @ts-ignore
-                this._EventBuilder.withMessage('温度超过30');
-                // @ts-ignore
-                this._EventBuilder.withTimeToLife(1000);
-                break;
-            case 'DeviceUninstalledEvent':
-                //withSubsystem
-                this._EventBuilder=new DeviceUninstalledEventBuilder();
-                // @ts-ignore
-                this._EventBuilder.withSubsystem("webservice_dahua");
-                break;
-            case 'WaterChangedEvent':
-                this._EventBuilder=new WaterChangedEventBuilder();
-                // @ts-ignore
-                this._EventBuilder.withValue(json.value);
-                break;
-            default:
-                this._Event=null;
-                break
-        }
-        if(this._Event===null) return this._Event;
+    //获取builder 类
+    private getBuilderClass(){
+        let _EventBuilder=null;
+        //todo@修改------------------
+        //卸载、安装、维保、预警
+        try {
+            _EventBuilder===null&&( _EventBuilder=new (<any>DeviceBasisEvents)[`${ this._eventName}Builder` ]() );
+        }catch (e) {_EventBuilder=null}
 
+        //设备子系统事件
+        try {
+            _EventBuilder===null&&( _EventBuilder=new (<any>WaterBasisEvents)[`${ this._eventName}Builder` ]() );
+        }catch (e) {}
+        try {
+            _EventBuilder===null&&( _EventBuilder=new (<any>DeviceOnlineTimeBasisEvents)[`${ this._eventName}Builder` ]() );
+        }catch (e) {}
+        try {
+            _EventBuilder===null&&( _EventBuilder=new (<any>DampnessBasisEvents)[`${ this._eventName}Builder` ]() );
+        }catch (e) {}
+        try {
+            _EventBuilder===null&&( _EventBuilder=new (<any>StateBasisEvents)[`${ this._eventName}Builder` ]() );
+        }catch (e) {}
+        try {
+            _EventBuilder===null&&( _EventBuilder=new (<any>ElectricityBasisEvents)[`${ this._eventName}Builder` ]() );
+        }catch (e) {}
+        try {
+            _EventBuilder===null&&( _EventBuilder=new (<any>FanLosedPresetBasisEvents)[`${ this._eventName}Builder` ]() );
+        }catch (e) {}
+        try {
+            _EventBuilder===null&&( _EventBuilder=new (<any>GasMeterBasisEvents)[`${ this._eventName}Builder` ]() );
+        }catch (e) {}
+        try {
+            _EventBuilder===null&&( _EventBuilder=new (<any>SwitchBasisEvents)[`${ this._eventName}Builder` ]() );
+        }catch (e) {}
+        try {
+            _EventBuilder===null&&( _EventBuilder=new (<any>TemperatureBasisEvents)[`${ this._eventName}Builder` ]() );
+        }catch (e) {}
+        return _EventBuilder;
+    }
+
+    // @ts-ignore 设置构建类的属性值
+    private setActiveClassParams(json:object){
+        try {// @ts-ignore
+            json.manufacturer        &&this._EventBuilder.withManufacturer(json.manufacturer);
+        }catch (e) {}
+        try {// @ts-ignore
+            json.model              &&this._EventBuilder.withModel(json.model);
+        }catch (e) {}
+        try {// @ts-ignore
+            json.category           &&this._EventBuilder.withCategory(json.category);
+        }catch (e) {}
+        try {// @ts-ignore
+            json.subsystem          &&this._EventBuilder.withSubsystem(json.subsystem);
+        }catch (e) {}
+        try {// @ts-ignore
+            json.factoryName        &&this._EventBuilder.withFactoryName(json.factoryName);
+        }catch (e) {}
+        try {// @ts-ignore
+            json.functionalAreaId   &&this._EventBuilder.withFunctionalAreaId(json.functionalAreaId);
+        }catch (e) {}
+        try {// @ts-ignore
+            json.positionId         &&this._EventBuilder.withPositionId(json.positionId);
+        }catch (e) {}
+        try {// @ts-ignore
+            json.timeToLife         &&this._EventBuilder.withTimeToLife(json.timeToLife);
+        }catch (e) {}
+        try {// @ts-ignore
+            json.value              &&this._EventBuilder.withValue(json.value);
+        }catch (e) {}
+        try {// @ts-ignore
+            json.message            &&this._EventBuilder.withMessage(json.message);
+        }catch (e) {}
 
         // @ts-ignore
         this._EventBuilder.withId(json.deviceId);
+    }
+    //转换器工厂名 ----对应转换器
+    createEvent(json:object){
+
+        //获取对应类型 EnventBuilder------------
+        this._EventBuilder = this.getBuilderClass();
+        if( this._EventBuilder === null){
+            return this._Event;
+        }
+        //设置构建类的属性值
+        this.setActiveClassParams(json);
+
         // @ts-ignore
         this._Event =  this._EventBuilder.build();
 

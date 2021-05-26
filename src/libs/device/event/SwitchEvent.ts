@@ -1,12 +1,14 @@
 
 import {
-    DeviceEvent,
-    DeviceEventBuilder,
+    DeviceBasisEvents
+    /*DeviceEvent,
+    DeviceEventBuilder,*/
 } from '../../event/DeviceEvent';
 import {
     IEventTransformer
 } from '../../event/Event'
 
+export module SwitchBasisEvents{
 /********************************
  ********            常量          ************
  * *********************************/
@@ -18,7 +20,7 @@ export const DEVICE_SWITCH_TRANSFORMER_NAME = 'device.switch.transformer';
  * 开关事件
  */
 export abstract class SwitchEvent
-    extends DeviceEvent {
+    extends DeviceBasisEvents.DeviceEvent {
 
     constructor( builder: SwitchEventBuilder ) {
         super( builder );
@@ -159,7 +161,7 @@ export class SwitchEventTransformer
  * 开关事件构建器
  */
 export abstract class SwitchEventBuilder
-    extends DeviceEventBuilder {
+    extends DeviceBasisEvents.DeviceEventBuilder {
 
     constructor() {
         super();
@@ -195,4 +197,5 @@ export class ClosedEventBuilder
     build(): ClosedEvent {
         return new ClosedEvent( this );
     }
+}
 }

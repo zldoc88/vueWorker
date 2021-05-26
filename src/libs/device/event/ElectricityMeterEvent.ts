@@ -8,13 +8,15 @@
 
 import { isNull } from '../../event/Util';
 import {
-    DeviceEvent,
-    DeviceEventBuilder,
+    DeviceBasisEvents
+    /*DeviceEvent,
+    DeviceEventBuilder,*/
 } from '../../event/DeviceEvent';
 import {
     IEventTransformer
 } from '../../event/Event'
 
+export module ElectricityBasisEvents{
 /***********************************
  ********            常量          ************
  * *********************************/
@@ -25,7 +27,7 @@ export const  DEVICE_ELECTRICITY_TRANSFORMER_NAME = "device.electricity.transfor
 /**
  * 电表事件
  */
-export abstract class ElectricityEvent extends DeviceEvent {
+export abstract class ElectricityEvent extends DeviceBasisEvents.DeviceEvent {
 
     constructor(builder: ElectricityEventBuilder){
         super(builder);
@@ -70,7 +72,7 @@ export class ElectricityChangedEvent extends ElectricityEvent {
 /**
  * 电表事件构建器
  */
-export abstract class ElectricityEventBuilder extends DeviceEventBuilder {
+export abstract class ElectricityEventBuilder extends DeviceBasisEvents.DeviceEventBuilder {
 
     constructor(){
         super();
@@ -166,4 +168,5 @@ export class ElectricityEventTransformer implements IEventTransformer<Electricit
     }
 
 
+}
 }

@@ -1,7 +1,8 @@
 import { isNull } from '../../event/Util';
 import {
-    DeviceEvent,
-    DeviceEventBuilder,
+    DeviceBasisEvents
+    /*DeviceEvent,
+    DeviceEventBuilder,*/
 } from '../../event/DeviceEvent';
 import {
     IEventTransformer
@@ -10,14 +11,14 @@ import {
 /********************************
  ********            常量          ************
  * *********************************/
-
+export module DeviceOnlineTimeBasisEvents{
     // 设备时长变化事件转换器名称， 针对设备在线时长发生变化、运行时长发生变化事件
 export const  DEVICE_TIME_TRANSFORMER_NAME = "device.time.transformer";
 
 /**
  * 时长发生变化事件
  */
-export abstract class TimeChangedEvent extends DeviceEvent {
+export abstract class TimeChangedEvent extends DeviceBasisEvents.DeviceEvent {
 
     constructor(builder: TimeChangedEventBuilder){
         super(builder);
@@ -176,7 +177,7 @@ export class TimeToArrayEventTransformer implements IEventTransformer<TimeChange
 /**
  * 时长发生变化事件构建器
  */
-export abstract class TimeChangedEventBuilder extends DeviceEventBuilder {
+export abstract class TimeChangedEventBuilder extends DeviceBasisEvents.DeviceEventBuilder {
 
     constructor(){
         super();
@@ -245,4 +246,5 @@ export class RunningTimeChangedEventBuilder extends TimeChangedEventBuilder {
     build(): RunningTimeChangedEvent{
         return new RunningTimeChangedEvent(this);
     }
+}
 }

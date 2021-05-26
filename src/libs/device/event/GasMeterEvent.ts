@@ -8,13 +8,15 @@
 
 import { isNull } from '../../event/Util';
 import {
-    DeviceEvent,
-    DeviceEventBuilder,
+    DeviceBasisEvents
+    /*DeviceEvent,
+    DeviceEventBuilder,*/
 } from '../../event/DeviceEvent';
 import {
     IEventTransformer
 } from '../../event/Event'
 
+export module GasMeterBasisEvents{
 /***********************************
  ********            常量          ************
  * *********************************/
@@ -25,7 +27,7 @@ export const  DEVICE_GAS_TRANSFORMER_NAME = "device.gas.transformer";
 /**
  * 气表事件
  */
-export abstract class GasMeterEvent extends DeviceEvent {
+export abstract class GasMeterEvent extends DeviceBasisEvents.DeviceEvent {
 
     constructor(builder: GasMeterEventBuilder){
         super(builder);
@@ -70,7 +72,7 @@ export class GasChangedEvent extends GasMeterEvent {
 /**
  * 气表事件构建器
  */
-export abstract class GasMeterEventBuilder extends DeviceEventBuilder {
+export abstract class GasMeterEventBuilder extends DeviceBasisEvents.DeviceEventBuilder {
 
     constructor(){
         super();
@@ -166,4 +168,5 @@ export class GasMeterEventformer implements IEventTransformer<GasMeterEvent> {
     }
 
 
+}
 }

@@ -8,8 +8,9 @@
 
 import { isNull } from '../../event/Util';
 import {
-    DeviceEvent,
-    DeviceEventBuilder,
+    DeviceBasisEvents
+   /* DeviceEvent,
+    DeviceEventBuilder,*/
 } from '../../event/DeviceEvent';
 import {
     IEventTransformer
@@ -18,14 +19,14 @@ import {
 /***********************************
  ********            常量          ************
  * *********************************/
-
+export module WaterBasisEvents{
     // 水表事件转换器名称， 针对水表发生变化事件
 export const  DEVICE_WATER_TRANSFORMER_NAME = "device.water.transformer";
 
 /**
  * 水表事件
  */
-export abstract class WaterEvent extends DeviceEvent {
+export abstract class WaterEvent extends DeviceBasisEvents.DeviceEvent {
 
     constructor( builder: WaterEventBuilder){
         super(builder);
@@ -71,7 +72,7 @@ export class WaterChangedEvent extends WaterEvent {
 /**
  * 水表事件构造器
  */
-export abstract class WaterEventBuilder extends DeviceEventBuilder {
+export abstract class WaterEventBuilder extends DeviceBasisEvents.DeviceEventBuilder {
 
     constructor(){
         super();
@@ -165,4 +166,5 @@ export class WaterEventTransformer implements IEventTransformer<WaterEvent> {
     }
 
 
+}
 }

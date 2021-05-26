@@ -39,8 +39,6 @@ export class WorkerContext { // @ts-ignore
         // 关闭已有连接
         // @ts-ignore
         if (this._client.connected) {
-            console.log('this._client.connected')
-            console.log(this._client.connected)
             this._client.close(regionId);
         }
 
@@ -49,8 +47,6 @@ export class WorkerContext { // @ts-ignore
 
         // 打开连接
         if (regionId) {
-            console.log('this._client')
-            console.log(this._client)
             this._client.open(regionId);
         }
     }
@@ -74,18 +70,49 @@ export class WorkerContext { // @ts-ignore
 
     //@todo 模拟事件=====================================================
     private vCreateEvent(){
+        let vData=[
+            {
+                __typename:'IBMS_DeviceInstalledEvent',
+                deviceId:'19990990',
+                manufacturer:"广州市晟能电子科技有限公司",
+                model:"SN-DH266666666 温度计",
+                category:"温度计",
+                subsystem:"webservice_dahua",
+                factoryName:"temperature.sensor",
+                functionalAreaId:"HPDXXZ0101",
+                positionId:"Test_position001",
+            },
+            {
+                __typename:'IBMS_DeviceProducedEvent',
+                deviceId:'19990990',
+            },
+            {
+                __typename:'IBMS_DeviceAlarmEvent',
+                deviceId:'19990990',
+                category:'水温',
+                message:'温度超过30',
+                timeToLife:1000,
+            },
+            {
+                __typename:'IBMS_DeviceUninstalledEvent',
+                deviceId:'19990990',
+                subsystem:"webservice_dahua",
+            },
+            {
+                __typename:'IBMS_WaterChangedEvent',
+                deviceId:'19990990',
+                value:22,
+            },
 
-        let name = ['IBMS_DeviceInstalledEvent','IBMS_DeviceProductEvent','IBMS_DeviceAlarmEvent','IBMS_DeviceMaintenancedEvent','IBMS_DeviceUninstalledEvent'];
+
+        ];
+
         let  radom = 0;
         let _go=()=>{
             let data= {
                 payload:{
                     data:{
-                        AllDeviceEvents:{
-                            __typename:name[radom],
-                            deviceId:'19990990',
-                            value:'0'
-                        }
+                        AllDeviceEvents:vData[radom]
                     }
                 },
             };
@@ -94,7 +121,7 @@ export class WorkerContext { // @ts-ignore
             let JsonData = JSON.parse('{}');
             this.onWebSocketEvent({},JsonData,JSONStringify);
             radom++;
-            radom = radom>(name.length -1)? 0:radom;
+            radom = radom>(vData.length -1)? 0:radom;
             setTimeout(_go,3000);
         };
 
@@ -112,17 +139,13 @@ export class WorkerContext { // @ts-ignore
         message = message =null ?{}:message;
         // @ts-ignore
         //self.postMessage(message);
-        console.log('onWebSocketEvent=======>data=',data);
 
         if(!message) return;
         let name = this.getEventName(message);
         let EventName = name.split('IBMS_')[1];
-        console.log('message=======>',EventName,message);
         if (EventName) {
             let ibmsEvent = this._factoryRepo.createEvent(EventName, message);
-            console.log('ibmsEvent.transformerName====>',ibmsEvent.transformerName);
             if(ibmsEvent) this._eventBus.publishEvent(ibmsEvent);
-
         }
     }
 

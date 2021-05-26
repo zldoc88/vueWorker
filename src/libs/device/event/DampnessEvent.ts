@@ -1,12 +1,14 @@
 import { isNull } from '../../event/Util';
 import {
-    DeviceEvent,
-    DeviceEventBuilder,
+    DeviceBasisEvents
+    /*DeviceEvent,
+    DeviceEventBuilder,*/
 } from '../../event/DeviceEvent';
 import {
     IEventTransformer
 } from '../../event/Event'
 
+export module DampnessBasisEvents{
 /***********************************
  ********            常量          ************
  * *********************************/
@@ -17,7 +19,7 @@ export const  DEVICE_DAMPNESS_TRANSFORMER_NAME = "device.dampness.transformer";
 /**
  * 湿度事件
  */
-export abstract class DampnessEvent extends DeviceEvent {
+export abstract class DampnessEvent extends DeviceBasisEvents.DeviceEvent {
 
     constructor(builder: DampnessEventBuilder){
         super(builder);
@@ -33,7 +35,7 @@ export abstract class DampnessEvent extends DeviceEvent {
 /**
  * 湿度事件构建器
  */
-export abstract class DampnessEventBuilder extends DeviceEventBuilder {
+export abstract class DampnessEventBuilder extends DeviceBasisEvents.DeviceEventBuilder {
 
     constructor(){
         super();
@@ -253,4 +255,5 @@ export class DampnessSettedEventBuilder extends DampnessEventBuilder {
     build(): DampnessSettedEvent{
         return new DampnessSettedEvent(this);
     }
+}
 }

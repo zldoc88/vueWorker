@@ -7,21 +7,22 @@
  */
 import { isNull } from '../../event/Util';
 import {
-    DeviceEvent,
-    DeviceEventBuilder,
+    DeviceBasisEvents
+    /*DeviceEvent,
+    DeviceEventBuilder,*/
 } from '../../event/DeviceEvent';
 import {
     IEventTransformer
 } from '../../event/Event'
 
-
+export module FanLosedPresetBasisEvents{
 
 export const DEVICE_FANLOSEDPRESET_TRANSFORMER_NAME = "device.fanLosedPreset.transformer";
 
 /**
  * 闭环控制事件
  */
-export abstract class FanLosedPresetEvent extends DeviceEvent{
+export abstract class FanLosedPresetEvent extends DeviceBasisEvents.DeviceEvent{
 
     constructor(builder: FanLosedPresetEventBuilder) {
         super(builder);
@@ -124,7 +125,7 @@ export class FanLosedPresetSettedToArrayEventTransformer implements IEventTransf
 /**
  * 闭环控制事件构建器
  */
-export abstract  class FanLosedPresetEventBuilder extends DeviceEventBuilder{
+export abstract  class FanLosedPresetEventBuilder extends DeviceBasisEvents.DeviceEventBuilder{
 
     constructor() {
         super();
@@ -164,3 +165,4 @@ export class FanLosedPresetSettedEventBuilder extends FanLosedPresetEventBuilder
 
 }
 
+}

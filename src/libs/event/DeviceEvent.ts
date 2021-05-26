@@ -4,6 +4,7 @@ import {
 } from './Event';
 import { isNull } from './Util';
 
+export module DeviceBasisEvents{
 /**
 * 抽象的设备事件
 */
@@ -870,4 +871,5 @@ export class DeviceAlarmEventBuilder extends DeviceLifecycleChangedEventBuilder 
     build(): DeviceAlarmEvent {
         return new DeviceAlarmEvent(this);
     }
+}
 }

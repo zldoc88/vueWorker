@@ -1,11 +1,14 @@
 import { isNull } from '../../event/Util';
 import {
-    DeviceEvent,
-    DeviceEventBuilder,
+    DeviceBasisEvents
+    /*DeviceEvent,
+    DeviceEventBuilder,*/
 } from '../../event/DeviceEvent';
 import {
     IEventTransformer
 } from '../../event/Event'
+
+export module TemperatureBasisEvents{
 
 /********************************
  ********            常量          ************
@@ -17,7 +20,7 @@ export const  DEVICE_TEMPERATURE_TRANSFORMER_NAME = "device.temperature.transfor
 /**
  * 温度事件
  */
-export abstract class TemperatureEvent extends DeviceEvent {
+export abstract class TemperatureEvent extends DeviceBasisEvents.DeviceEvent {
 
     constructor(builder: TemperatureEventBuilder){
         super(builder);
@@ -174,7 +177,7 @@ export class TemperatureToArrayEventTransformer implements IEventTransformer<Tem
 /**
  * 温度事件构建器
  */
-export abstract class TemperatureEventBuilder extends DeviceEventBuilder {
+export abstract class TemperatureEventBuilder extends DeviceBasisEvents.DeviceEventBuilder {
 
     constructor(){
         super();
@@ -240,4 +243,5 @@ export class TemperatureSettedEventBuilder extends TemperatureEventBuilder {
     build(): TemperatureSettedEvent{
         return new TemperatureSettedEvent(this);
     }
+}
 }

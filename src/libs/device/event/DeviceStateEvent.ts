@@ -7,13 +7,15 @@
  */
 
 import {
-    DeviceEvent,
-    DeviceEventBuilder,
+    DeviceBasisEvents
+    /*DeviceEvent,
+    DeviceEventBuilder,*/
 } from '../../event/DeviceEvent';
 import {
     IEventTransformer
 } from '../../event/Event'
 
+export module StateBasisEvents{
 /********************************
  ********            常量          ************
  * *********************************/
@@ -24,7 +26,7 @@ export const  DEVICE_STATE_TRANSFORMER_NAME = "device.state.transformer";
 /**
  * 设备状态事件
  */
-export abstract class DeviceStateEvent extends DeviceEvent {
+export abstract class DeviceStateEvent extends DeviceBasisEvents.DeviceEvent {
 
     constructor(builder: StateEventBuilder){
         super(builder);
@@ -81,7 +83,7 @@ export class DeviceStoppingEvent extends DeviceStateEvent {
 /**
  * 设备状态事件构建器
  */
-export abstract class StateEventBuilder extends DeviceEventBuilder {
+export abstract class StateEventBuilder extends DeviceBasisEvents.DeviceEventBuilder {
 
     constructor(){
         super();
@@ -197,3 +199,4 @@ export class StateEventTransformer
     }
 }
 
+}
