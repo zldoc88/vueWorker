@@ -1,0 +1,18 @@
+# #根据指定的功能区订阅其中所有的设备事件
+# subscription DeviceEvents4Floor( $floorId: String! ){
+#     AllDeviceEvents: ibms_onDeviceEventByFloor( floorId: $floorId ){
+#         #设备编号
+#         deviceId,
+#         __typename,
+#     },
+# }
+
+#根据指定的功能区订阅其中所有的设备事件
+subscription DeviceEvents4FunctionalArea( $functionalAreaId: String! ){
+    AllDeviceEvents: ibms_onDeviceEvent( functionalAreaId: $functionalAreaId ){
+        #设备编号
+        deviceId,
+        __typename,
+    },
+}
+
