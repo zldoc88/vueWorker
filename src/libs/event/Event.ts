@@ -85,15 +85,15 @@ export abstract class IbmsEvent {
      * @param obj  被解析对象
      */
     paseeFrom(obj: object[]): IbmsEvent {
-        console.log(obj);
+        //console.log(obj);
       if (obj){
         let name = this.getEventTransformerName(obj);
-        console.log(name);
+        //console.log(name);
         if (name){
           let transformer = this._transformerMap.get(name);
-          console.log(transformer);
+          //console.log(transformer);
           if (transformer){
-              console.log(transformer.parseFrom(obj));
+             // console.log(transformer.parseFrom(obj));
             return transformer.parseFrom(obj);
           }else{
             throw Error("cannot transform processing, because transformer not exists:" + name);

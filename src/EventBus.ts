@@ -17,7 +17,6 @@ export class EventBus {
       */
      publishEvent(event: IbmsEvent): void{
        for (let listener of this._listeners){
-           console.log('发布事件================>',listener,event);
            listener.onIbmsEvent(event);
        }
      }

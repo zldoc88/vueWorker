@@ -21,9 +21,9 @@ export class EventSyncListener implements IEventListener {
      */
     onIbmsEvent(event: IbmsEvent): void {
 
-        console.log('worker::事件处理=>event=====>',event);
+        //console.log('worker::事件处理=>event=====>',event);
         let arr = this._transformerRepo.tranformTo(event);
-        console.log('worker::事件处理=>onIbmsEvent=====>',arr);
+        //console.log('worker::事件处理=>onIbmsEvent=====>',arr);
         if (arr){
                 if (self.Worker){
                     // @ts-ignore

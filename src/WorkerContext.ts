@@ -35,7 +35,7 @@ export class WorkerContext { // @ts-ignore
      * @param regionId 区域编号
      */
     switchRegion(regionId : string) {
-        console.log(this._client);
+        //console.log(this._client);
         // 关闭已有连接
         // @ts-ignore
         if (this._client.connected) {
