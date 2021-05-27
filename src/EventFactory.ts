@@ -28,90 +28,63 @@ export class IWebSocketEvent implements IEventFactory{
     private readonly _eventFactoryMap: Map<string, any>;
     private readonly _eventName: string;
     private readonly _transformerName: string;
-    private _EventBuilder: DeviceBasisEvents.DeviceEventBuilder;
-    private _Event: DeviceBasisEvents.DeviceEvent;
+    private _EventBuilder: any;
+    private _Event: any;
+    private _BuilderList: Array<any>=[];
+
 
     constructor(name:string){
         this._eventFactoryMap = new Map<string, IEventTransformer<IbmsEvent>>();
         this._eventName = isNull(name, "\"name\" cannot be null.");
         this._transformerName = isNull(name, "\"name\" cannot be null.");
+        this._BuilderList=[
+            DeviceBasisEvents,
+            WaterBasisEvents,
+            DeviceOnlineTimeBasisEvents,
+            DampnessBasisEvents,
+            StateBasisEvents,
+            ElectricityBasisEvents,
+            FanLosedPresetBasisEvents,
+            GasMeterBasisEvents,
+            SwitchBasisEvents,
+            TemperatureBasisEvents,
+        ];
+    }
+    private firstUpperCase (strings:string){
+        return strings.replace(/\b(\w)(\w*)/g, ($0, $1, $2)=> {
+            return $1.toUpperCase() + $2;
+        });
     }
 
     //获取builder 类
     private getBuilderClass(){
-        let _EventBuilder=null;
-        //todo@修改------------------
-        //卸载、安装、维保、预警
+        let _EventBuilder:any=null;
+        //todo@修改------------------ //卸载、安装、维保、预警、设备子系统事件
         try {
-            _EventBuilder===null&&( _EventBuilder=new (<any>DeviceBasisEvents)[`${ this._eventName}Builder` ]() );
-        }catch (e) {_EventBuilder=null}
-
-        //设备子系统事件
-        try {
-            _EventBuilder===null&&( _EventBuilder=new (<any>WaterBasisEvents)[`${ this._eventName}Builder` ]() );
-        }catch (e) {}
-        try {
-            _EventBuilder===null&&( _EventBuilder=new (<any>DeviceOnlineTimeBasisEvents)[`${ this._eventName}Builder` ]() );
-        }catch (e) {}
-        try {
-            _EventBuilder===null&&( _EventBuilder=new (<any>DampnessBasisEvents)[`${ this._eventName}Builder` ]() );
-        }catch (e) {}
-        try {
-            _EventBuilder===null&&( _EventBuilder=new (<any>StateBasisEvents)[`${ this._eventName}Builder` ]() );
-        }catch (e) {}
-        try {
-            _EventBuilder===null&&( _EventBuilder=new (<any>ElectricityBasisEvents)[`${ this._eventName}Builder` ]() );
-        }catch (e) {}
-        try {
-            _EventBuilder===null&&( _EventBuilder=new (<any>FanLosedPresetBasisEvents)[`${ this._eventName}Builder` ]() );
-        }catch (e) {}
-        try {
-            _EventBuilder===null&&( _EventBuilder=new (<any>GasMeterBasisEvents)[`${ this._eventName}Builder` ]() );
-        }catch (e) {}
-        try {
-            _EventBuilder===null&&( _EventBuilder=new (<any>SwitchBasisEvents)[`${ this._eventName}Builder` ]() );
-        }catch (e) {}
-        try {
-            _EventBuilder===null&&( _EventBuilder=new (<any>TemperatureBasisEvents)[`${ this._eventName}Builder` ]() );
-        }catch (e) {}
+            let isError=0;
+            this._BuilderList.forEach(item=>{
+                try {
+                    if(_EventBuilder===null){
+                        _EventBuilder=new (<any>item)[`${ this._eventName}Builder` ]();
+                        isError=1;//异常不赋值
+                    }
+                }catch (e) {isError=2};
+                if(isError===1) throw new Error('finded!');
+            });
+        }catch (e) {};
         return _EventBuilder;
     }
 
     // @ts-ignore 设置构建类的属性值
     private setActiveClassParams(json:object){
-        try {// @ts-ignore
-            json.manufacturer        &&this._EventBuilder.withManufacturer(json.manufacturer);
-        }catch (e) {}
-        try {// @ts-ignore
-            json.model              &&this._EventBuilder.withModel(json.model);
-        }catch (e) {}
-        try {// @ts-ignore
-            json.category           &&this._EventBuilder.withCategory(json.category);
-        }catch (e) {}
-        try {// @ts-ignore
-            json.subsystem          &&this._EventBuilder.withSubsystem(json.subsystem);
-        }catch (e) {}
-        try {// @ts-ignore
-            json.factoryName        &&this._EventBuilder.withFactoryName(json.factoryName);
-        }catch (e) {}
-        try {// @ts-ignore
-            json.functionalAreaId   &&this._EventBuilder.withFunctionalAreaId(json.functionalAreaId);
-        }catch (e) {}
-        try {// @ts-ignore
-            json.positionId         &&this._EventBuilder.withPositionId(json.positionId);
-        }catch (e) {}
-        try {// @ts-ignore
-            json.timeToLife         &&this._EventBuilder.withTimeToLife(json.timeToLife);
-        }catch (e) {}
-        try {// @ts-ignore
-            json.value              &&this._EventBuilder.withValue(json.value);
-        }catch (e) {}
-        try {// @ts-ignore
-            json.message            &&this._EventBuilder.withMessage(json.message);
-        }catch (e) {}
-
         // @ts-ignore
         this._EventBuilder.withId(json.deviceId);
+        for(let item in json){
+            if(item === 'deviceId') continue;
+            try {// @ts-ignore
+                this._EventBuilder[`with${this.firstUpperCase(item)}`](json[item]);
+            }catch (e) {}
+        }
     }
     //转换器工厂名 ----对应转换器
     createEvent(json:object){

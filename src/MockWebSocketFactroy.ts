@@ -24,22 +24,13 @@ class MockWebSocketClient implements IWebSocketClient {
               }: any ): void => {
                 if( state === 'open' ){
                     console.log( 'WebSocket连接已打开！！！' );
-
                     this._WebSocket4Client = wsIns;
-                    console.log('worker this._WebSocket4Client');
-                    console.log(this._WebSocket4Client);
-
                     WSConnectionInit( {
                         wsIns: this._WebSocket4Client,
                     } );
-
-
-
                 }
 
                 if( state === 'close' ){
-                    console.warn( 'WebSocket连接关闭了！！！Start' );
-                    console.warn( ws );
                     console.warn( 'WebSocket连接关闭了！！！End' );
                 }
 
@@ -52,8 +43,6 @@ class MockWebSocketClient implements IWebSocketClient {
                   wsIns
               }: any ): void => {
                 if( state === 'error' ){
-                    console.error( 'WebSocket连接错误！！！Start' );
-                    console.error( ws );
                     console.error( 'WebSocket连接错误！！！End' );
                 }
             }
@@ -65,13 +54,8 @@ class MockWebSocketClient implements IWebSocketClient {
     open(regionId : string): void {
         this.doConnect(this._WebSocket4Client,regionId );
         this._connected = true;
-
-        console.log('this._WebSocket4Client.setOnMessage=>*****************',this._WebSocket4Client);
         // 打开后，模拟发出服务端的事件.
         this._WebSocket4Client.setOnMessage(this._listener);
-
-        console.log('this._WebSocket4Client');
-        console.log(this._WebSocket4Client);
     }
 
     connected(): boolean {
@@ -102,8 +86,6 @@ class MockWebSocketClient implements IWebSocketClient {
                     } );
                 }
                 if( state === 'close' ){
-                    console.warn( 'WebSocket连接关闭了！！！Start' );
-                    console.warn( ws );
                     console.warn( 'WebSocket连接关闭了！！！End' );
                 }
             },
@@ -114,8 +96,6 @@ class MockWebSocketClient implements IWebSocketClient {
                   wsIns
               }: any ): void => {
                 if( state === 'error' ){
-                    console.error( 'WebSocket连接错误！！！Start' );
-                    console.error( ws );
                     console.error( 'WebSocket连接错误！！！End' );
                 }
             }

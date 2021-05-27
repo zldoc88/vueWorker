@@ -28,21 +28,14 @@ self.addEventListener("message", onMessage);
  */
 
 function onMessage(event : Object) {
-    console.log('event=>',event);
     // @ts-ignore
     if (event.data instanceof Array) {
-
-        console.log('onMessage 收到事件：'+event);
-        console.log(event);
         // @ts-ignore
-        console.dir(event.data);
-        // @ts-expect-error
         let ibmsEvent = context.transformers.paseeFrom(event.data);
-
         // 切换功能区事件
         if (ibmsEvent instanceof SwitchRegionEvent) {
-             context.switchRegion('HPDXXZ0101');
-            //context.switchRegion(ibmsEvent.regionId);
+             //context.switchRegion('HPDXXZ0101');
+            context.switchRegion(ibmsEvent.regionId);
         }
     }
 }
