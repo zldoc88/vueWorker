@@ -136,7 +136,7 @@ export class WorkerContext { // @ts-ignore
         // @ts-ignore
         let dt = JSON.parse(data);
         let message = dt?.payload?.data?.AllDeviceEvents;
-        message = message =null ?{}:message;
+        message = message ===null ?{}:message;
         // @ts-ignore
         //self.postMessage(message);
 
