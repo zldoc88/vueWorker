@@ -127,10 +127,10 @@ class MockWebSocketClient implements IWebSocketClient {
         } );
     }
 
-    private cutConnect( wsIns: any, functionalAreaId: string ){
+    private cutConnect( wsIns: any, floorId: string ){
         stopSubscription( {
             wsIns,
-            id: functionalAreaId,
+            id: floorId,
         } );
     }
 }
