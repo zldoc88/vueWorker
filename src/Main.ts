@@ -34,9 +34,7 @@ function onMessage(event : Object) {
         let ibmsEvent = context.transformers.paseeFrom(event.data);
         // 切换功能区事件
         if (ibmsEvent instanceof SwitchRegionEvent) {
-             //context.switchRegion('HPDXXZ0101');
             context.switchRegion(ibmsEvent.regionId);
-            return;
         }
 
         if(workerContext.client){

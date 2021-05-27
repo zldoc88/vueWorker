@@ -77,34 +77,39 @@ export class WorkerContext { // @ts-ignore
         let vData=[
             {
                 __typename:'IBMS_DeviceInstalledEvent',
-                deviceId:'19990990',
+                deviceId:'199909901',
                 manufacturer:"广州市晟能电子科技有限公司",
                 model:"SN-DH266666666 温度计",
                 category:"温度计",
                 subsystem:"webservice_dahua",
+                //"cameras","electric.meter","water.meter","access.control","humidity.sensor",
                 factoryName:"temperature.sensor",
                 functionalAreaId:"HPDXXZ0101",
                 positionId:"Test_position001",
             },
             {
                 __typename:'IBMS_DeviceProducedEvent',
-                deviceId:'19990990',
+                deviceId:'199909901',
             },
             {
                 __typename:'IBMS_DeviceAlarmEvent',
-                deviceId:'19990990',
+                deviceId:'199909901',
                 category:'水温',
                 message:'温度超过30',
                 timeToLife:1000,
             },
             {
+                __typename:'IBMS_DeviceMaintenancedEvent',
+                deviceId:'199909901'
+            },
+            {
                 __typename:'IBMS_DeviceUninstalledEvent',
-                deviceId:'19990990',
+                deviceId:'199909901',
                 subsystem:"webservice_dahua",
             },
             {
                 __typename:'IBMS_WaterChangedEvent',
-                deviceId:'19990990',
+                deviceId:'199909901',
                 value:22,
             },
 
@@ -126,10 +131,10 @@ export class WorkerContext { // @ts-ignore
             this.onWebSocketEvent({},JsonData,JSONStringify);
             radom++;
             radom = radom>(vData.length -1)? 0:radom;
-            setTimeout(_go,3000);
+            setTimeout(_go,5000);
         };
 
-        setTimeout(_go,3000);
+        setTimeout(_go,5000);
     }
     /**
       *  WebSocket事件处理
