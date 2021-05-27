@@ -7,6 +7,7 @@ import {GasMeterBasisEvents} from './libs/device/event/GasMeterEvent'
 import {SwitchBasisEvents} from './libs/device/event/SwitchEvent'
 import {TemperatureBasisEvents} from './libs/device/event/TemperatureEvent'
 import {WaterBasisEvents} from './libs/device/event/WaterMetersEvent'
+import {FanCoilBasisEvent} from './libs/device/event/FanCoilEvent'
 
 import {DeviceBasisEvents} from './libs/event/DeviceEvent'
 //import {DEVICE_LIFECYCLE_TRANSFORMER_NAME,DeviceLifecycleEventTransformer} from './libs/event/DeviceEvent'
@@ -25,6 +26,7 @@ export const ImportEvent = (workerContext: WorkerContext) => {
     workerContext.transformers.addEventTransformer(SwitchBasisEvents.DEVICE_SWITCH_TRANSFORMER_NAME, new SwitchBasisEvents.SwitchEventTransformer());
     workerContext.transformers.addEventTransformer(TemperatureBasisEvents.DEVICE_TEMPERATURE_TRANSFORMER_NAME, new TemperatureBasisEvents.TemperatureToArrayEventTransformer());
     workerContext.transformers.addEventTransformer(WaterBasisEvents.DEVICE_WATER_TRANSFORMER_NAME, new WaterBasisEvents.WaterEventTransformer());
+    workerContext.transformers.addEventTransformer(FanCoilBasisEvent.DEVICE_FanCoil_TRANSFORMER_NAME, new FanCoilBasisEvent.FanCoilEventTransformer());
     //设备安装、卸载、维保-----------------
     workerContext.transformers.addEventTransformer(DeviceBasisEvents.DEVICE_LIFECYCLE_TRANSFORMER_NAME, new DeviceBasisEvents.DeviceLifecycleEventTransformer());
 

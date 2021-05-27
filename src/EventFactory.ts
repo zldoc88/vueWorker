@@ -11,6 +11,7 @@ import { DampnessBasisEvents } from './libs/device/event/DampnessEvent';
 import { DeviceOnlineTimeBasisEvents } from './libs/device/event/TimeChangedEvent';
 import { WaterBasisEvents } from './libs/device/event/WaterMetersEvent';
 import { DeviceBasisEvents } from './libs/event/DeviceEvent';
+import {FanCoilBasisEvent} from "./libs/device/event/FanCoilEvent";
 
 
 
@@ -48,6 +49,7 @@ export class IWebSocketEvent implements IEventFactory{
             GasMeterBasisEvents,
             SwitchBasisEvents,
             TemperatureBasisEvents,
+            FanCoilBasisEvent,
         ];
     }
     private firstUpperCase (strings:string){
