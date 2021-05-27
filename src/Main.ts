@@ -36,6 +36,16 @@ function onMessage(event : Object) {
         if (ibmsEvent instanceof SwitchRegionEvent) {
              //context.switchRegion('HPDXXZ0101');
             context.switchRegion(ibmsEvent.regionId);
+            return;
         }
+
+        if(workerContext.client){
+           // console.log('workerContext.client',workerContext.client.WebSocket4Client);
+            // @ts-ignore
+            workerContext.client.WebSocket4Client.send( JSON.stringify( event.data ) );
+        }
+
+
+
     }
 }

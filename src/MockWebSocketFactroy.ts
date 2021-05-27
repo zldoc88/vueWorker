@@ -102,6 +102,10 @@ class MockWebSocketClient implements IWebSocketClient {
         );
     }
 
+    get WebSocket4Client(){
+        return this._WebSocket4Client;
+    }
+
     private doConnect( wsIns: any, functionalAreaId: string ): void {
         console.log('functionalAreaId=>',functionalAreaId);
         startSubscription( {

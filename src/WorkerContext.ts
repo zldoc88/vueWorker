@@ -68,6 +68,10 @@ export class WorkerContext { // @ts-ignore
         }
     }
 
+    get client(){
+        return this._client;
+    }
+
     //@todo 模拟事件=====================================================
     private vCreateEvent(){
         let vData=[
