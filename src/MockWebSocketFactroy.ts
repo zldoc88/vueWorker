@@ -106,19 +106,19 @@ class MockWebSocketClient implements IWebSocketClient {
         return this._WebSocket4Client;
     }
 
-    private doConnect( wsIns: any, functionalAreaId: string ): void {
-        console.log('functionalAreaId=>',functionalAreaId);
+    private doConnect( wsIns: any, floorId: string ): void {
+        console.log('functionalAreaId=>',floorId);
         startSubscription( {
             wsIns,
-            id: functionalAreaId,
+            id: floorId,
             payload: {
-                operationName: 'DeviceEvents4FunctionalArea',
+                operationName: 'DeviceEvents4Floor',
                 variables: {
-                    functionalAreaId,
+                    floorId,
                 },
                 // 待后端接口弄好后，接 按楼层推送设备事件 接口。
-                query: `subscription DeviceEvents4FunctionalArea( $functionalAreaId: String! ) {
-                    AllDeviceEvents: ibms_onDeviceEvent( functionalAreaId: $functionalAreaId ) {
+                query: `subscription DeviceEvents4Floor( $floorId: String! ) {
+                    AllDeviceEvents: ibms_onDeviceEventByFloor( floorId: $floorId ) {
                         deviceId,
                         __typename,
                     },
